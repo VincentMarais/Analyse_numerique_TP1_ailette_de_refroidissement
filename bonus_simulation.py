@@ -53,6 +53,7 @@ class TemperatureSimulation:
     def plot_error_derive_gauche(self, points_x, derivative):
         """Calcul et affichage de l'erreur pour la dérivée gauche"""
         error_values = []
+        sup_T_second=[]
         for i in range(len(points_x)-1):
             y_value = np.interp(points_x[i], self.x, derivative)
 
@@ -60,10 +61,11 @@ class TemperatureSimulation:
             rounded_y_value = round(y_value, 2)
 
             plt.text(points_x[i]+0.01, y_value, f'$\sup_{{t \in [{points_x[i]}, {points_x[i+1]}]}} T\'\'(t) = {rounded_y_value}$', fontsize=8, verticalalignment='bottom', horizontalalignment='left', color='blue')
-
+            sup_T_second.append(y_value)
             error = rounded_y_value * (self.h/2)
             error_values.append(error)
         print("Erreur sur la dérivée à gauche :" , error_values)
+        print("Borne sup T'' sur chaque intervalle :",  sup_T_second)
         return error_values
 
     def error_integrale(self, points_x, derivative):
@@ -75,7 +77,7 @@ class TemperatureSimulation:
             plt.scatter(points_x[i], y_value, color='red', marker='o')
             rounded_y_value = round(y_value, 2)
 
-            plt.text(points_x[i]+0.1, y_value, f'$\sup_{{t \in [{points_x[i]}, {points_x[i+1]}]}} T\'\'(t) = {rounded_y_value}$', fontsize=8, verticalalignment='bottom', horizontalalignment='left', color='blue')
+            plt.text(points_x[i]+0.01, y_value, f'$\sup_{{t \in [{points_x[i]}, {points_x[i+1]}]}} T\'\'(t) = {rounded_y_value}$', fontsize=8, verticalalignment='bottom', horizontalalignment='left', color='blue')
 
             error = rounded_y_value * (self.num_integrale/self.dem_integrale)
             error_values.append(error)
@@ -86,6 +88,7 @@ class TemperatureSimulation:
     def error_derive_center(self, points_x, derivative):
         """Calcul et affichage de l'erreur pour la dérivée centrée"""
         error_values = []
+        sup_T_third = []
         for i in range(len(points_x)-1):
             y_value = np.interp(points_x[i+1], self.x, derivative)
 
@@ -93,11 +96,11 @@ class TemperatureSimulation:
             rounded_y_value = round(y_value, 2)
 
             plt.text(points_x[i]+0.1, y_value, f'$\sup_{{t \in [{points_x[i]}, {points_x[i+1]}]}}  T\'\'\'(t) = {rounded_y_value}$', fontsize=8, verticalalignment='bottom', horizontalalignment='left', color='blue')
-
+            sup_T_third.append(y_value)
             error =  (self.h**2/6) * np.abs(rounded_y_value)
             error_values.append(error)
         print("Erreur sur la dérivée centrée :" , error_values)
-            
+        print("Borne sup T''' sur chaque intervalle :",  sup_T_third)            
         return error_values
 
     def plot_error_intervals(self, points_x, derivative, error_label, label, error_values):

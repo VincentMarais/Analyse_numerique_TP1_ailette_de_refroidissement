@@ -2,18 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from functions_volumes_finis_ailette import  MSE_delta_x, volume_finis_thomas, evolution_Tnum_k
 from bonus_simulation import TemperatureSimulation
-# Définition des paramètres
+# Définition des paramètres de l'ailette
+
 R=4 * 10**-3 # Rayon de la section de l'ailette
 P = 2 * np.pi *R  # Périmètre de la section de l'ailette
 S = np.pi * (R)**2 # section de l'ailette
 k=np.arange(16, 420, 50) # liste des conductivités thermique allant de 16 à 420 avec un pas de 50
-
-# Calcul de sigma_test
-H = 10
-K_ENONCE=200
-HAUT = P * H
-BAS = S * K_ENONCE
-sigma_test = HAUT / BAS
+H = 10 # Coefficient de convecto-convection
+K_ENONCE=200 # Conductivité thermique
+sigma_test = ((P * H) / (S * K_ENONCE))
 
 # Paramètres de la simulation
 T_c = 100
@@ -86,7 +83,7 @@ plt.show()
 
 
 # Graphe question 7
-evolution_Tnum_k(R=R, L=L, h=H, n=500, T_c=100, T_a=20, k=k)
+evolution_Tnum_k(R=R, L=L, h=H, n=100, T_c=100, T_a=20, k=k)
 
 # Bonus simulation
 
