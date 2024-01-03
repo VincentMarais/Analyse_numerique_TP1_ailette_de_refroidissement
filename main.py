@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from founctions_volumes_finis_ailette import  MSE_delta_x, volume_finis_thomas, evolution_Tnum_k
-
+from functions_volumes_finis_ailette import  MSE_delta_x, volume_finis_thomas, evolution_Tnum_k
+from bonus_simulation import TemperatureSimulation
 # Définition des paramètres
 R=4 * 10**-3 # Rayon de la section de l'ailette
 P = 2 * np.pi *R  # Périmètre de la section de l'ailette
@@ -18,12 +18,18 @@ sigma_test = HAUT / BAS
 # Paramètres de la simulation
 T_c = 100
 T_a = 20
-n = 500
+n = input("Entrer la valeur de n : ")
+n=int(n)
 n_1 = 0.5 / n # Dans nos calculs, nous avons calculé nos températures aux centres des volumes de contrôles
 L=1 # Longueur de l'ailette 1m
 delta_x=1/n
 # Dans nos calculs, nous avons calculé nos températures aux centres des volumes de contrôles
 x = np.arange(n_1, L, delta_x) 
+
+# Paramètre de la solution exate avec les conditions aux limites du prof
+a_1= 80.00363216 
+b_1=- 0.0036321593
+
 
 # Calcul de la solution numérique
 y_th = volume_finis_thomas(sigma_test, n, T_c, T_a)
@@ -33,27 +39,38 @@ x = np.insert(x, [0, n], [0, L])
 y_th = np.insert(y_th, [0, n], [T_c, T_a])
 
 # Calcul de la solution exacte
-y_exact = 20 + 80.00363216 * np.exp(-x / 0.2) - 0.0036321593 * np.exp(x / 0.2)
+y_exact = T_a + a_1 * np.exp(-x / 0.2) + b_1 * np.exp(x / 0.2)
 
 # Calcul de l'erreur relative en tout point
 erreur_relative = np.abs((y_th - y_exact) / y_exact)
 
 # Affichage des graphiques
 # Graphe question 4-5
-plt.figure(figsize=(8, 6))  # Adjust the figure size
+# Créez une figure avec 2 sous-graphiques
+plt.figure(figsize=(12, 6))  # Ajustez la taille de la figure
+
+# Créez une figure avec 2 sous-graphiques côte à côte
+plt.figure(figsize=(12, 6))  # Ajustez la taille de la figure
+
+# Sous-plot 1 (à gauche)
+plt.subplot(1, 2, 1)  # 1 ligne, 2 colonnes, sous-plot 1
 plt.plot(x, y_th, label="$T_{num}$")
 plt.plot(x, y_exact, label="$T_{ex}$")
 plt.xlabel("x (m)")
 plt.ylabel("T (°C)")
 plt.legend()
 plt.grid(True)
-plt.show()
 
+# Sous-plot 2 (à droite)
+plt.subplot(1, 2, 2)  # 1 ligne, 2 colonnes, sous-plot 2
 plt.plot(x, erreur_relative, label="Erreur relative")
 plt.xlabel("x (m)")
 plt.ylabel("Erreur relative")
 plt.grid(True)
 plt.legend()
+
+# Affichez la figure avec les sous-graphiques
+plt.tight_layout()  # Pour éviter que les labels se chevauchent
 plt.show()
 
 
@@ -70,3 +87,28 @@ plt.show()
 
 # Graphe question 7
 evolution_Tnum_k(R=R, L=L, h=H, n=500, T_c=100, T_a=20, k=k)
+
+# Bonus simulation
+
+# Paramètre de la solution exate mes conditions aux limites :
+a_2=79.99644008
+b_2=0.0035599153
+
+# Première simulation
+sim_1 = TemperatureSimulation(a_2, b_2, n)
+sim_1.plot_T(1, "red", "T(x)", "green")
+
+# Deuxième simulation
+sim_2 = TemperatureSimulation(a_1, b_1, n)
+sim_2.plot_T(1, "red", "T(x)", "green")
+
+# Calcul de T''(x) et visualisation des points et de l'erreur intégrale
+sim_2.visualize_derivative(sim_2.calculate_second_derivative(), "T''")
+sim_2.plot_error_intervals([0, 0.2, 0.4, 0.6, 0.8, 1], sim_2.calculate_second_derivative(), "Erreur intégrale", "T''", sim_2.error_integrale([0, 0.2, 0.4, 0.6, 0.8, 1], sim_2.calculate_second_derivative()))
+
+# Calcul de T'''(x) et visualisation
+sim_2.visualize_derivative(sim_2.calculate_third_derivative(), "T'''")
+
+# Visualisation de l'erreur de la dérivée centrée et de la dérivée gauche pour chaque intervalle
+sim_2.plot_error_intervals([0, 0.2, 0.4, 0.6, 0.8, 1], sim_2.calculate_third_derivative(), "Erreur dérivée centrée", "T'''", sim_2.error_derive_center([0, 0.2, 0.4, 0.6, 0.8, 1], sim_2.calculate_third_derivative()))
+sim_2.plot_error_intervals([0, 0.2, 0.4, 0.6, 0.8, 1], sim_2.calculate_second_derivative(), "Erreur dérivée gauche", "T''", sim_2.plot_error_derive_gauche([0, 0.2, 0.4, 0.6, 0.8, 1], sim_2.calculate_second_derivative()))
