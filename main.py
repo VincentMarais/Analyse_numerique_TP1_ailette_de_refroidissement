@@ -88,36 +88,37 @@ plt.show()
 evolution_Tnum_k(R=R, L=L, h=H, n=100, T_c=100, T_a=20, k=k)
 
 # Bonus simulation
-print("Simulation bonus")
-# Paramètre de la solution exate mes conditions aux limites :
-A_2=79.99644008
-B_2=0.0035599153
-
-# Choix utilisateur
-choise=input("Veux-tu une simulation adaptative ? 'Oui' ou 'Non' : ")
+choise=input("Veux-tu la simulation bonus ? 'Oui' ou 'Non' : ")
 while choise not in ['Oui', 'Non']:
     solution = input("Veuillez écrire Oui ou Non : ")
 if choise=='Oui':
-    x_error=[i/n for i in range(n+1)]
-else:
     N_DEFAUT=5
     x_error=[i/N_DEFAUT for i in range(N_DEFAUT+1)]
+    # Paramètre de la solution exate mes conditions aux limites :
+    A_2=79.99644008
+    B_2=0.0035599153
 
-# Première simulation
-sim_1 = TemperatureSimulation(A_2, B_2, n)
-sim_1.plot_T(1, "red", "T(x)", "green")
+    # Choix utilisateur
 
-# Deuxième simulation
-sim_2 = TemperatureSimulation(A_1, B_1, n)
-sim_2.plot_T(1, "red", "T(x)", "green")
 
-# Calcul de T''(x) et visualisation des points et de l'erreur intégrale
-sim_2.visualize_derivative(sim_2.calculate_second_derivative(), "T''")
-sim_2.plot_error_intervals(x_error, sim_2.calculate_second_derivative(), "Erreur intégrale", "T''", sim_2.error_integrale(x_error, sim_2.calculate_second_derivative()))
+    # Première simulation
+    sim_1 = TemperatureSimulation(A_2, B_2, n)
+    sim_1.plot_T(1, "red", "T(x)", "green")
 
-# Calcul de T'''(x) et visualisation
-sim_2.visualize_derivative(sim_2.calculate_third_derivative(), "T'''")
+    # Deuxième simulation
+    sim_2 = TemperatureSimulation(A_1, B_1, n)
+    sim_2.plot_T(1, "red", "T(x)", "green")
 
-# Visualisation de l'erreur de la dérivée centrée et de la dérivée gauche pour chaque intervalle
-sim_2.plot_error_intervals(x_error, sim_2.calculate_third_derivative(), "Erreur dérivée centrée", "T'''", sim_2.error_derive_center(x_error, sim_2.calculate_third_derivative()))
-sim_2.plot_error_intervals(x_error, sim_2.calculate_second_derivative(), "Erreur dérivée gauche", "T''", sim_2.plot_error_derive_gauche(x_error, sim_2.calculate_second_derivative()))
+    # Calcul de T''(x) et visualisation des points et de l'erreur intégrale
+    sim_2.visualize_derivative(sim_2.calculate_second_derivative(), "T''")
+    sim_2.plot_error_intervals(x_error, sim_2.calculate_second_derivative(), "Erreur intégrale", "T''", sim_2.error_integrale(x_error, sim_2.calculate_second_derivative()))
+
+    # Calcul de T'''(x) et visualisation
+    sim_2.visualize_derivative(sim_2.calculate_third_derivative(), "T'''")
+
+    # Visualisation de l'erreur de la dérivée centrée et de la dérivée gauche pour chaque intervalle
+    sim_2.plot_error_intervals(x_error, sim_2.calculate_third_derivative(), "Erreur dérivée centrée", "T'''", sim_2.error_derive_center(x_error, sim_2.calculate_third_derivative()))
+    sim_2.plot_error_intervals(x_error, sim_2.calculate_second_derivative(), "Erreur dérivée gauche", "T''", sim_2.plot_error_derive_gauche(x_error, sim_2.calculate_second_derivative()))
+
+else:
+    print("Fin de la simulation du TP1")

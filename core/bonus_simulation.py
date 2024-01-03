@@ -1,29 +1,38 @@
 import numpy as np
 import matplotlib.pyplot as plt
+# Définition des paramètres de l'ailette
 
+R=4 * 10**-3 # Rayon de la section de l'ailette
+P = 2 * np.pi *R  # Périmètre de la section de l'ailette
+S = np.pi * (R)**2 # section de l'ailette
+k=np.arange(16, 420, 50) # liste des conductivités thermique allant de 16 à 420 avec un pas de 50
+H = 10 # Coefficient de convecto-convection
+K_ENONCE=200 # Conductivité thermique
+SIGMA_TEST = (P * H) / (S * K_ENONCE)
+A=1/np.sqrt(SIGMA_TEST)
 class TemperatureSimulation:
     def __init__(self, a, b, n):
         """Initialisation des paramètres de la simulation"""
         self.a = a
         self.b = b
         self.x = np.linspace(0, 1, 100)
-        self.a_2 = 0.2**2
-        self.a_3 = 0.2**3
+        self.a_2 = A**2
+        self.a_3 = A**3
         self.h = 1/n
         self.num_integrale = (1/n)**3
         self.dem_integrale = 24*(n**2)
 
     def calculate_T(self, x):
         """Calcul de la température en fonction de la position"""
-        return self.a * np.exp(-x / 0.2) + self.b * np.exp(x / 0.2) + 20
+        return self.a * np.exp(-x / A) + self.b * np.exp(x / A) + 20
 
     def calculate_second_derivative(self):
         """Calcul de la dérivée seconde la température"""
-        return self.a/self.a_2 * np.exp(-self.x / 0.2) - self.b/self.a_2 * np.exp(self.x / 0.2)
+        return self.a/self.a_2 * np.exp(-self.x / A) + self.b/self.a_2 * np.exp(self.x / A)
 
     def calculate_third_derivative(self):
         """Calcul de la dérivée troisième de la température"""
-        return -self.a/self.a_3 * np.exp(-self.x / 0.2) - self.b/self.a_3 * np.exp(self.x / 0.2)
+        return -self.a/self.a_3 * np.exp(-self.x / A) + self.b/self.a_3 * np.exp(self.x / A)
 
     def plot_T(self, x_value, color, label, text_color):
         """Affichage du graphe de la température en fonction de la position"""
