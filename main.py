@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from functions_volumes_finis_ailette import  MSE_delta_x, volume_finis_thomas, evolution_Tnum_k
-from bonus_simulation import TemperatureSimulation
+from core.functions_volumes_finis_ailette import  MSE_delta_x, volume_finis_thomas, evolution_Tnum_k
+from core.bonus_simulation import TemperatureSimulation
 # Définition des paramètres de l'ailette
 
 R=4 * 10**-3 # Rayon de la section de l'ailette
