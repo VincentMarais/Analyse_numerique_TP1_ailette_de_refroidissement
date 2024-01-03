@@ -94,7 +94,7 @@ A_2=79.99644008
 B_2=0.0035599153
 
 # Choix utilisateur
-choise=input("Veut tu y simulation adaptative ? 'Oui' ou 'Non' : ")
+choise=input("Veux-tu une simulation adaptative ? 'Oui' ou 'Non' : ")
 while choise not in ['Oui', 'Non']:
     solution = input("Veuillez écrire Oui ou Non : ")
 if choise=='Oui':
