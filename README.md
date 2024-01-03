@@ -30,7 +30,7 @@ Exemple si vous avez téléchargé le fichié sur votre bureau:
 
 ``` bash
 
-cd Desktop\Analyse_numerique_TP1_ailette_de_refroidissement
+cd Desktop\Analyse_numerique_TP1_ailette_de_refroidissement-main
 ```
 
 4. Installez les bibliothèques nécessaires en exécutant la commande suivante :
