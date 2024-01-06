@@ -1,3 +1,7 @@
+"""
+Programme de la simulation bonus
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 # Définition des paramètres de l'ailette
@@ -11,11 +15,14 @@ K_ENONCE=200 # Conductivité thermique
 SIGMA_TEST = (P * H) / (S * K_ENONCE)
 A=1/np.sqrt(SIGMA_TEST)
 class TemperatureSimulation:
+    """
+    Class simulation bonus
+    """
     def __init__(self, a, b, n):
         """Initialisation des paramètres de la simulation"""
         self.a = a
         self.b = b
-        self.x = np.linspace(0, 1, 100)
+        self.x = np.linspace(0, 1, 1000)
         self.a_2 = A**2
         self.a_3 = A**3
         self.h = 1/n
@@ -71,7 +78,8 @@ class TemperatureSimulation:
 
             plt.text(points_x[i]+0.01, y_value, f'$\sup_{{t \in [{points_x[i]}, {points_x[i+1]}]}} T\'\'(t) = {rounded_y_value}$', fontsize=8, verticalalignment='bottom', horizontalalignment='left', color='blue')
             sup_T_second.append(y_value)
-            error = rounded_y_value * (self.h/2)
+            h=self.h/2 # cf Rapport
+            error = rounded_y_value * (h/2)
             error_values.append(error)
         print("Erreur sur la dérivée à gauche :" , error_values)
         print("Borne sup T'' sur chaque intervalle :",  sup_T_second)
@@ -108,8 +116,8 @@ class TemperatureSimulation:
             sup_T_third.append(y_value)
             error =  (self.h**2/6) * np.abs(rounded_y_value)
             error_values.append(error)
+        print("Borne sup T''' sur chaque intervalle :",  sup_T_third)
         print("Erreur sur la dérivée centrée :" , error_values)
-        print("Borne sup T''' sur chaque intervalle :",  sup_T_third)            
         return error_values
 
     def plot_error_intervals(self, points_x, derivative, error_label, label, error_values):

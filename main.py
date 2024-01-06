@@ -45,13 +45,8 @@ erreur_relative = np.abs((y_th - y_exact) / y_exact)
 
 # Affichage des graphiques
 # Graphe question 4-5
-# Créez une figure avec 2 sous-graphiques
-plt.figure(figsize=(12, 6))  # Ajustez la taille de la figure
+plt.figure(figsize=(12, 6))  
 
-# Créez une figure avec 2 sous-graphiques côte à côte
-plt.figure(figsize=(12, 6))  # Ajustez la taille de la figure
-
-# Sous-plot 1 (à gauche)
 plt.subplot(1, 2, 1)  # 1 ligne, 2 colonnes, sous-plot 1
 plt.plot(x, y_th, label="$T_{num}$")
 plt.plot(x, y_exact, label="$T_{ex}$")
@@ -72,9 +67,8 @@ plt.legend()
 plt.tight_layout()  # Pour éviter que les labels se chevauchent
 plt.show()
 
-
-[deltax_values, mse_values]=MSE_delta_x(SIGMA_TEST, T_C, T_A, y_exact, n_maxi=50, L=L)
 # Graphe question 5.2
+[deltax_values, mse_values]=MSE_delta_x(SIGMA_TEST, T_C, T_A, y_exact, n_maxi=50, L=L)
 plt.figure(figsize=(10, 6))
 plt.plot(np.flip(deltax_values), np.flip(mse_values), marker='o')
 plt.xlabel('$\delta x$')
@@ -98,15 +92,13 @@ if choise=='Oui':
     A_2=79.99644008
     B_2=0.0035599153
 
-    # Choix utilisateur
-
 
     # Première simulation
     sim_1 = TemperatureSimulation(A_2, B_2, n)
     sim_1.plot_T(1, "red", "T(x)", "green")
 
     # Deuxième simulation
-    sim_2 = TemperatureSimulation(A_1, B_1, n)
+    sim_2 = TemperatureSimulation(A_1, B_1, N_DEFAUT)
     sim_2.plot_T(1, "red", "T(x)", "green")
 
     # Calcul de T''(x) et visualisation des points et de l'erreur intégrale
