@@ -50,6 +50,9 @@ plt.figure(figsize=(12, 6))
 plt.subplot(1, 2, 1)  # 1 ligne, 2 colonnes, sous-plot 1
 plt.plot(x, y_th, label="$T_{num}$")
 plt.plot(x, y_exact, label="$T_{ex}$")
+plt.scatter(x, y_th, label="$T_{num}$")
+plt.scatter(x, y_exact, label="$T_{ex}$")
+
 plt.xlabel("x (m)")
 plt.ylabel("T (°C)")
 plt.legend()
@@ -58,6 +61,7 @@ plt.grid(True)
 # Sous-plot 2 (à droite)
 plt.subplot(1, 2, 2)  # 1 ligne, 2 colonnes, sous-plot 2
 plt.plot(x, erreur_relative, label="Erreur relative")
+plt.scatter(x, erreur_relative, label="Erreur relative")
 plt.xlabel("x (m)")
 plt.ylabel("Erreur relative")
 plt.grid(True)
@@ -65,6 +69,14 @@ plt.legend()
 
 # Affichez la figure avec les sous-graphiques
 plt.tight_layout()  # Pour éviter que les labels se chevauchent
+plt.show()
+
+plt.plot(x, erreur_relative, label="Erreur relative")
+plt.xlabel("x (m)")
+plt.ylabel("Erreur relative")
+plt.legend()
+# Affichez la figure avec les sous-graphiques
+plt.grid(True)
 plt.show()
 
 # Graphe question 5.2
@@ -111,6 +123,7 @@ if choise=='Oui':
     # Visualisation de l'erreur de la dérivée centrée et de la dérivée gauche pour chaque intervalle
     sim_2.plot_error_intervals(x_error, sim_2.calculate_third_derivative(), "Erreur dérivée centrée", "T'''", sim_2.error_derive_center(x_error, sim_2.calculate_third_derivative()))
     sim_2.plot_error_intervals(x_error, sim_2.calculate_second_derivative(), "Erreur dérivée gauche", "T''", sim_2.plot_error_derive_gauche(x_error, sim_2.calculate_second_derivative()))
+    print("Fin de la simulation du TP1")
 
 else:
     print("Fin de la simulation du TP1")
